@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     },
     writeYourGenres: function () {
-      // for (let i = 1; i <= 3; ++i) {
+      // for (let i = MoviesDB; i <= 3; ++i) {
       //   let tmp = prompt(`Ваш любимый жанр под номером ${i}?`, '');
       //   if (tmp !== null && tmp !== '') {
       //     personalMovieDB.genres.push(tmp);
