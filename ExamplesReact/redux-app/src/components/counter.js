@@ -1,7 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
 import * as actions from '../actions';
-import {bindActionCreators} from "redux";
 
 const Counter = ({counter, inc, dec, res}) => {
     return (

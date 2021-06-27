@@ -1,27 +1,27 @@
 import React, {Component} from "react";
 import ItemList from "../itemList";
-import ItemDetails, {Field} from "../charDetails";
+import ItemDetails, {Field} from "../itemDetails";
 import ErrorMessage from "../errorMessage";
 import gotService from '../../services/gotService'
 import RowBlock from "../rowBlock";
 
-export default class CharacterPage extends Component {
+export default class HousesPage extends Component {
     gotService = new gotService();
+
     state = {
-        selectedChar: 130,
-        error: false,
+        selectedHouse: null,
+        error: false
     }
 
     onItemSelected = (id) => {
         this.setState({
-            selectedChar: id,
+            selectedHouse: id
         })
     }
 
-    componentDidCatch(error, errorInfo) {
-        console.log('error');
+    componentDidCatch() {
         this.setState({
-            error: true,
+            error: true
         })
     }
 
@@ -33,24 +33,23 @@ export default class CharacterPage extends Component {
         const itemList = (
             <ItemList
                 onItemSelected={this.onItemSelected}
-                getData={this.gotService.getAllCharacters}
-                renderItem={({name, gender}) => `${name} (${gender})`}
-            />
+                getData={this.gotService.getAllHouses}
+                renderItem={({name}) => name}/>
         )
 
         const itemDetails = (
             <ItemDetails
-                charId={this.state.selectedChar}
-            >
-                <Field field='gender' label='Gender'/>
-                <Field field='born' label='Born'/>
-                <Field field='died' label='Died'/>
-                <Field field='culture' label='Culture'/>
+                itemId={this.state.selectedHouse}
+                getData={this.gotService.getHouse} >
+                <Field field='region' label='Region'/>
+                <Field field='words' label='Words'/>
+                <Field field='titles' label='Titles'/>
+                <Field field='ancestralWeapons' label='Ancestral Weapons'/>
             </ItemDetails>
         )
 
         return (
-            <RowBlock left={itemList} right={itemDetails}/>
+            <RowBlock left={itemList} right={itemDetails} />
         )
     }
 }

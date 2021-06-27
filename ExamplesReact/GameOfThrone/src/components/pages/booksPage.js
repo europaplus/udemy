@@ -1,27 +1,19 @@
-import React, {Component} from "react";
-import ItemList from "../itemList";
-import ItemDetails, {Field} from "../charDetails";
-import ErrorMessage from "../errorMessage";
-import gotService from '../../services/gotService'
-import RowBlock from "../rowBlock";
+import React, {Component} from 'react';
+import ItemList from '../itemList';
+import ErrorMessage from '../errorMessage';
+import gotService from '../../services/gotService';
+import {withRouter} from 'react-router-dom';
 
-export default class CharacterPage extends Component {
+class BooksPage extends Component {
     gotService = new gotService();
+
     state = {
-        selectedChar: 130,
-        error: false,
+        error: false
     }
 
-    onItemSelected = (id) => {
+    componentDidCatch() {
         this.setState({
-            selectedChar: id,
-        })
-    }
-
-    componentDidCatch(error, errorInfo) {
-        console.log('error');
-        this.setState({
-            error: true,
+            error: true
         })
     }
 
@@ -30,27 +22,16 @@ export default class CharacterPage extends Component {
             return <ErrorMessage/>
         }
 
-        const itemList = (
-            <ItemList
-                onItemSelected={this.onItemSelected}
-                getData={this.gotService.getAllCharacters}
-                renderItem={({name, gender}) => `${name} (${gender})`}
-            />
-        )
-
-        const itemDetails = (
-            <ItemDetails
-                charId={this.state.selectedChar}
-            >
-                <Field field='gender' label='Gender'/>
-                <Field field='born' label='Born'/>
-                <Field field='died' label='Died'/>
-                <Field field='culture' label='Culture'/>
-            </ItemDetails>
-        )
-
         return (
-            <RowBlock left={itemList} right={itemDetails}/>
+            <ItemList
+                onItemSelected={(itemId) => {
+                    this.props.history.push(itemId)
+                }}
+                getData={this.gotService.getAllBooks}
+                renderItem={({name}) => name}
+            />
         )
     }
 }
+
+export default withRouter(BooksPage);
